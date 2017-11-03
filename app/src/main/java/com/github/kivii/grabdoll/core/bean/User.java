@@ -1,15 +1,16 @@
 package com.github.kivii.grabdoll.core.bean;
 
+import com.github.kivii.grabdoll.core.dao.DaoSession;
+import com.github.kivii.grabdoll.core.dao.ImageDao;
+import com.github.kivii.grabdoll.core.dao.UserDao;
+
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.Date;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
-import com.github.kivii.grabdoll.core.dao.DaoSession;
-import com.github.kivii.grabdoll.core.dao.ImageDao;
-import com.github.kivii.grabdoll.core.dao.UserDao;
 
 @Entity
 public class User {
