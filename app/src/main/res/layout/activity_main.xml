@@ -7,7 +7,7 @@
 
         <variable
             name="presenter"
-            type="com.github.kivii.grabdoll.ui.MainActivity.Presenter" />
+            type="com.kivii.grabdoll.ui.MainActivity.Presenter" />
 
         <variable
             name="position"
@@ -48,7 +48,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="16sp" />
 
-                    <com.github.kivii.grabdoll.ui.view.IconFontView
+                    <com.kivii.grabdoll.ui.view.IconFontView
                         android:layout_width="@dimen/appbar_height"
                         android:layout_height="match_parent"
                         android:background="?android:attr/selectableItemBackground"
@@ -92,7 +92,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:onClick="@{presenter.onClickHome}">
 
-                    <com.github.kivii.grabdoll.ui.view.IconFontView
+                    <com.kivii.grabdoll.ui.view.IconFontView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/ic_home"
@@ -116,7 +116,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:onClick="@{presenter.onClickMessage}">
 
-                    <com.github.kivii.grabdoll.ui.view.IconFontView
+                    <com.kivii.grabdoll.ui.view.IconFontView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/ic_comments"
@@ -140,7 +140,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:onClick="@{presenter.onClickChart}">
 
-                    <com.github.kivii.grabdoll.ui.view.IconFontView
+                    <com.kivii.grabdoll.ui.view.IconFontView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/ic_chart"
@@ -164,7 +164,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:onClick="@{presenter.onClickMine}">
 
-                    <com.github.kivii.grabdoll.ui.view.IconFontView
+                    <com.kivii.grabdoll.ui.view.IconFontView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/ic_user"

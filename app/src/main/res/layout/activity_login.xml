@@ -6,7 +6,7 @@
 
         <variable
             name="presenter"
-            type="com.github.kivii.grabdoll.ui.LoginActivity.Presenter" />
+            type="com.kivii.grabdoll.ui.LoginActivity.Presenter" />
     </data>
 
     <LinearLayout
