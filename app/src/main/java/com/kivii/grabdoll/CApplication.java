@@ -2,7 +2,7 @@ package com.kivii.grabdoll;
 
 import android.app.Application;
 
-import com.kivii.grabdoll.core.util.DaoUtils;
+import com.kivii.grabdoll.util.DaoUtils;
 
 public class CApplication extends Application {
 

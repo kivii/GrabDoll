@@ -1,4 +1,4 @@
-package com.kivii.grabdoll.core.util;
+package com.kivii.grabdoll.util;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -51,6 +51,10 @@ public class StringUtils {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static String toNumber(long id) {
+        return id < 10 ? "00" + id : id < 100 ? "0" + id : "" + id;
     }
 
     public static String getTimeStr(Date date) {

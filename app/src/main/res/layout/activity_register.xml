@@ -4,13 +4,275 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+        <variable
+            name="presenter"
+            type="com.kivii.grabdoll.ui.RegisterActivity.Presenter"/>
 
+        <variable
+            name="page"
+            type="int"/>
+        <variable
+            name="clickable"
+            type="boolean"/>
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <include layout="@layout/appbar"/>
 
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/page0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="@{page==0?View.VISIBLE:View.GONE}">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/text_create_store"
+                        android:textColor="@color/text_gray"
+                        android:textSize="14sp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:baselineAligned="false">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_name"
+                            android:textColor="@color/text_black"
+                            android:layout_marginRight="10dp"
+                            android:textSize="16sp"/>
+                        <EditText
+                            android:id="@+id/et_store_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLength="12"
+                            android:background="@drawable/bg_input_white"
+                            android:padding="10dp"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp"
+                            android:onTextChanged="@{presenter.onTextChanged}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:baselineAligned="false">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_address"
+                            android:textColor="@color/text_black"
+                            android:layout_marginRight="10dp"
+                            android:textSize="16sp"/>
+                        <EditText
+                            android:id="@+id/et_store_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLength="30"
+                            android:background="@drawable/bg_input_white"
+                            android:padding="10dp"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="top"
+                        android:baselineAligned="false">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_intro"
+                            android:textColor="@color/text_black"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="5dp"
+                            android:textSize="16sp"/>
+                        <EditText
+                            android:id="@+id/et_store_intro"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine"
+                            android:minLines="5"
+                            android:maxLength="3000"
+                            android:gravity="top"
+                            android:background="@drawable/bg_input_white"
+                            android:padding="10dp"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/page1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="@{page==1?View.VISIBLE:View.GONE}">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/text_set_manager"
+                        android:textColor="@color/text_gray"
+                        android:textSize="14sp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:baselineAligned="false">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_name_full"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp"/>
+                        <EditText
+                            android:id="@+id/et_manager_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLength="8"
+                            android:background="@drawable/bg_input_white"
+                            android:padding="10dp"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp"
+                            android:onTextChanged="@{presenter.onTextChanged}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:baselineAligned="false">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_mobile"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp"/>
+                        <EditText
+                            android:id="@+id/et_manager_mobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:maxLength="30"
+                            android:background="@drawable/bg_input_white"
+                            android:padding="10dp"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:baselineAligned="false">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_password"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp"/>
+                        <EditText
+                            android:id="@+id/et_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:maxLength="30"
+                            android:background="@drawable/bg_input_white"
+                            android:padding="10dp"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp"
+                            android:onTextChanged="@{presenter.onTextChanged}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:baselineAligned="false">
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_confirm"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp"/>
+                        <EditText
+                            android:id="@+id/et_confirm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:maxLength="30"
+                            android:background="@drawable/bg_input_white"
+                            android:padding="10dp"
+                            android:textColor="@color/text_black"
+                            android:textSize="16sp"
+                            android:onTextChanged="@{presenter.onTextChanged}"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </FrameLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{page==0?@string/text_next_step:@string/text_complete}"
+            android:textColor="@android:color/white"
+            android:background="@{clickable?@drawable/sel_btn_main:@drawable/bg_btn_gray}"
+            android:layout_margin="16dp"
+            android:clickable="@{clickable}"
+            android:onClick="@{presenter.onClickBtn}"/>
     </LinearLayout>
 </layout>

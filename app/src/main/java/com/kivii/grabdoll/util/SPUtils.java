@@ -1,4 +1,4 @@
-package com.kivii.grabdoll.core.util;
+package com.kivii.grabdoll.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
