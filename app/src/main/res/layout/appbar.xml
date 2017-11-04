@@ -26,21 +26,21 @@
                 android:layout_height="match_parent"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center"
-                android:textColor="@color/text_darker"
-                android:textSize="22dp" />
+                android:text="@string/ic_back"
+                android:textColor="@android:color/white"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/title_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
                 android:ellipsize="end"
                 android:gravity="center"
+                android:maxWidth="230dp"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 tools:text="Title" />
 
             <LinearLayout
@@ -51,14 +51,16 @@
 
                 <com.kivii.grabdoll.ui.view.IconFontView
                     android:id="@+id/title_ic_right"
-                    android:layout_width="@dimen/appbar_height"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/appbar_height"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center"
-                    android:text="@string/ic_back"
-                    android:textColor="@color/text_darker"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textColor="@android:color/white"
                     android:textSize="20dp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:text="@string/ic_chart" />
 
                 <TextView
                     android:id="@+id/title_right"
@@ -68,8 +70,8 @@
                     android:gravity="center"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:textColor="@color/text_darker"
-                    android:textSize="16sp"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
                     android:visibility="gone"
                     tools:text="确定" />
 

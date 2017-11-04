@@ -9,8 +9,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.kivii.grabdoll.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -18,13 +22,80 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Toast toast;
     private Snackbar snackbar;
 
+    protected void setTitleName(String name) {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+
+        TextView title = findViewById(R.id.title_name);
+        if (title != null) {
+            title.setText(name);
+        }
+
+        TextView back = findViewById(R.id.title_ic_back);
+        if (back != null) {
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
+    }
+
+    protected void setRightText(String text, View.OnClickListener lis) {
+        TextView rightText = findViewById(R.id.title_right);
+        if (rightText != null) {
+            rightText.setVisibility(View.VISIBLE);
+            rightText.setText(text);
+            rightText.setOnClickListener(lis);
+        }
+    }
+
+    protected void showRightText() {
+        TextView rightText = findViewById(R.id.title_right);
+        if (rightText != null) {
+            rightText.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void hideRightText() {
+        TextView rightText = findViewById(R.id.title_right);
+        if (rightText != null) {
+            rightText.setVisibility(View.GONE);
+        }
+    }
+
+    protected void setRightIc(int icRes, View.OnClickListener lis) {
+        TextView icRight = findViewById(R.id.title_ic_right);
+        if (icRight != null) {
+            icRight.setVisibility(View.VISIBLE);
+            icRight.setText(icRes);
+            icRight.setOnClickListener(lis);
+        }
+    }
+
+    protected void showRightIc() {
+        TextView rightIc = findViewById(R.id.title_ic_right);
+        if (rightIc != null) {
+            rightIc.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void hideRightIc() {
+        TextView rightIc = findViewById(R.id.title_ic_right);
+        if (rightIc != null) {
+            rightIc.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int i : grantResults) {
             if(i != PermissionChecker.PERMISSION_GRANTED) {
                 onPermsDenied();
-                Toast.makeText(this, "必须开启权限才能使用此功能！", Toast.LENGTH_SHORT).show();
                 onBackPressed();
                 return;
             }
@@ -68,25 +139,29 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    protected void showProgress(String msg, boolean flag, boolean cancel) {
+    protected void showProgress(String msg, boolean cancelable) {
         if(progressDialog == null) {
             progressDialog = new ProgressDialog(this);
         }
-        progressDialog.setMessage("");
-        progressDialog.setCancelable(flag);
-        progressDialog.setCanceledOnTouchOutside(cancel);
+        progressDialog.setMessage(msg);
+        progressDialog.setCancelable(cancelable);
+        progressDialog.setCanceledOnTouchOutside(cancelable);
         progressDialog.show();
     }
 
+    protected void showProgress(String msg) {
+        showProgress(msg, false);
+    }
+
     protected void showProgress() {
-        showProgress("", false, false);
+        showProgress("");
     }
 
     protected void dismissProgress() {
         progressDialog.dismiss();
     }
 
-    protected void snackbar(String msg) {
+    protected void snackBar(String msg) {
         if (snackbar == null) {
             snackbar = Snackbar.make(this.getWindow().getDecorView(), msg, Snackbar.LENGTH_SHORT);
         } else {
@@ -97,7 +172,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         snackbar.show();
     }
 
-    protected void snackbar(String msg, String actionStr, View.OnClickListener listener) {
+    protected void snackBar(String msg, String actionStr, View.OnClickListener listener) {
         if (snackbar == null) {
             snackbar = Snackbar.make(this.getWindow().getDecorView(), msg, Snackbar.LENGTH_LONG);
         } else {
@@ -111,7 +186,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void toast(String msg) {
         if (toast == null) {
-            toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+            toast = new Toast(this);
+            toast.setDuration(Toast.LENGTH_SHORT);
         } else {
             toast.setText(msg);
         }
