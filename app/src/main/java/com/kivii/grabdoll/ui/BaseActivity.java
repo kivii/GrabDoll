@@ -186,12 +186,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void toast(String msg) {
         if (toast == null) {
-            toast = new Toast(this);
-            toast.setDuration(Toast.LENGTH_SHORT);
+            toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+            toast.show();
         } else {
             toast.setText(msg);
+            toast.show();
         }
-
-        toast.show();
     }
 }

@@ -15,7 +15,6 @@ import com.kivii.grabdoll.core.dao.UserDao;
 import com.kivii.grabdoll.databinding.ActivityRegisterBinding;
 import com.kivii.grabdoll.util.Constant;
 import com.kivii.grabdoll.util.DaoUtils;
-import com.kivii.grabdoll.util.SPUtils;
 import com.kivii.grabdoll.util.StringUtils;
 
 import java.util.Date;
@@ -95,6 +94,7 @@ public class RegisterActivity extends BaseActivity {
         User user = new User();
         user.setName(managerName);
         user.setMobile(managerMobile);
+        user.setNumber("001");
         user.setPassword(StringUtils.md5(password));
         user.setAddTime(new Date());
         user.setOrgId(orgId);
@@ -104,6 +104,7 @@ public class RegisterActivity extends BaseActivity {
         Intent intent = getIntent();
         intent.putExtra(Constant.KEY_STORE_ID, orgId);
         intent.putExtra(Constant.KEY_USER_ID, userId);
+        intent.putExtra(Constant.KEY_USER_NUMBER, user.getNumber());
         intent.putExtra(Constant.KEY_USER_PASSWORD, password);
         setResult(RESULT_OK, intent);
         finish();

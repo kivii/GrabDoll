@@ -1,18 +1,20 @@
 package com.kivii.grabdoll.core.bean;
 
+import com.kivii.grabdoll.core.dao.DaoSession;
+import com.kivii.grabdoll.core.dao.ImageDao;
+import com.kivii.grabdoll.core.dao.MachineGroupDao;
+import com.kivii.grabdoll.core.dao.OrganizationDao;
+import com.kivii.grabdoll.core.dao.UserDao;
+
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.Date;
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
-import com.kivii.grabdoll.core.dao.DaoSession;
-import com.kivii.grabdoll.core.dao.UserDao;
-import com.kivii.grabdoll.core.dao.ImageDao;
-import com.kivii.grabdoll.core.dao.OrganizationDao;
 
 @Entity
 public class Organization {
@@ -31,6 +33,9 @@ public class Organization {
 
     @ToMany(referencedJoinProperty = "orgId")
     private List<User> userList;
+
+    @ToMany(referencedJoinProperty = "orgId")
+    private List<MachineGroup> groupList;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -204,6 +209,34 @@ public class Organization {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getOrganizationDao() : null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 712142180)
+    public List<MachineGroup> getGroupList() {
+        if (groupList == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            MachineGroupDao targetDao = daoSession.getMachineGroupDao();
+            List<MachineGroup> groupListNew = targetDao._queryOrganization_GroupList(id);
+            synchronized (this) {
+                if (groupList == null) {
+                    groupList = groupListNew;
+                }
+            }
+        }
+        return groupList;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 114754500)
+    public synchronized void resetGroupList() {
+        groupList = null;
     }
 
 }

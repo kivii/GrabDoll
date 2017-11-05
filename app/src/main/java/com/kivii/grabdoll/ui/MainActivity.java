@@ -1,6 +1,5 @@
 package com.kivii.grabdoll.ui;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,11 +9,16 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.kivii.grabdoll.R;
+import com.kivii.grabdoll.core.bean.User;
 import com.kivii.grabdoll.databinding.ActivityMainBinding;
 import com.kivii.grabdoll.ui.fragment.ChartFragment;
 import com.kivii.grabdoll.ui.fragment.HomeFragment;
 import com.kivii.grabdoll.ui.fragment.MessageFragment;
 import com.kivii.grabdoll.ui.fragment.MineFragment;
+import com.kivii.grabdoll.util.AppUtils;
+import com.kivii.grabdoll.util.Constant;
+import com.kivii.grabdoll.util.DaoUtils;
+import com.kivii.grabdoll.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +26,37 @@ import java.util.List;
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding mBinding;
     private List<Fragment> fragmentList = new ArrayList<>();
+    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        initView();
+        long userId = (long) SPUtils.get(this, Constant.KEY_USER_ID, 0L);
+        mUser = DaoUtils.daoSession.getUserDao().loadDeep(userId);
+        if (mUser == null) {
+            finish();
+            return;
+        }
+
+        if (hasData()) {
+            initView();
+        } else {
+            toCreate();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AppUtils.backHome(this);
+    }
+
+    private void toCreate() {
+
+    }
+
+    private boolean hasData() {
+        return !DaoUtils.daoSession.getOrganizationDao().loadDeep(mUser.getOrgId()).getGroupList().isEmpty();
     }
 
     private void initView() {
@@ -81,8 +110,7 @@ public class MainActivity extends BaseActivity {
         }
 
         public void onClickMine(View v) {
-//            mBinding.viewPager.setCurrentItem(3);
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            mBinding.viewPager.setCurrentItem(3);
         }
     }
 

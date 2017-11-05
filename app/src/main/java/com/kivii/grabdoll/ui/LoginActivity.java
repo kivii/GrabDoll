@@ -20,6 +20,8 @@ import com.kivii.grabdoll.util.DaoUtils;
 import com.kivii.grabdoll.util.SPUtils;
 import com.kivii.grabdoll.util.StringUtils;
 
+import java.util.List;
+
 public class LoginActivity extends BaseActivity {
     private Context mContext;
     private ActivityLoginBinding mBinding;
@@ -36,7 +38,17 @@ public class LoginActivity extends BaseActivity {
     private void initView() {
         mBinding.setPresenter(new Presenter());
 
+        long storeId = (long) SPUtils.get(mContext, Constant.KEY_STORE_ID, 0L);
+        String userNum = (String) SPUtils.get(mContext, Constant.KEY_USER_NUMBER, "");
+        String psw = (String) SPUtils.get(mContext, Constant.KEY_USER_PASSWORD, "");
 
+        if (storeId != 0L) {
+            mBinding.etStoreNumber.setText(String.valueOf(storeId + 999));
+        }
+        mBinding.etMemberNumber.setText(userNum);
+        mBinding.etPassword.setText(psw);
+
+        startLogin(userNum, psw, storeId, false);
     }
 
     @Override
@@ -58,20 +70,21 @@ public class LoginActivity extends BaseActivity {
         long storeId = data.getLongExtra(Constant.KEY_STORE_ID, 0L);
         long userId = data.getLongExtra(Constant.KEY_USER_ID, 0L);
         String psw = data.getStringExtra(Constant.KEY_USER_PASSWORD);
-        if (storeId == 0L || userId == 0L || TextUtils.isEmpty(psw)) {
+        String num = data.getStringExtra(Constant.KEY_USER_NUMBER);
+        if (storeId == 0L || userId == 0L || TextUtils.isEmpty(psw) || TextUtils.isEmpty(num)) {
             toast("注册失败");
             return;
         }
-
         mBinding.etStoreNumber.setText(String.valueOf(storeId + 999));
-        mBinding.etMemberNumber.setText(String.valueOf(userId));
+        mBinding.etMemberNumber.setText(num);
         mBinding.etPassword.setText(psw);
 
         new AlertDialog.Builder(this)
                 .setTitle("注册成功")
                 .setMessage("您的店铺帐号为 " + (storeId + 999) +
-                        "\n您的工号为 " + userId + "\n请记住了")
-                .setPositiveButton("确定", null);
+                        "\n您的工号为 " + num + "\n请记住了")
+                .setPositiveButton("确定", null)
+                .show();
     }
 
     private void login() {
@@ -80,49 +93,62 @@ public class LoginActivity extends BaseActivity {
         String psw = mBinding.etPassword.getText().toString();
 
         if (TextUtils.isEmpty(storeNum)) {
-            mBinding.etStoreNumber.setError("请输入店铺帐号");
+            toast("请输入店铺帐号");
             return;
         }
         if (TextUtils.isEmpty(userNum)) {
-            mBinding.etMemberNumber.setError("请输入员工工号");
+            toast("请输入员工工号");
             return;
         }
         if (TextUtils.isEmpty(psw)) {
-            mBinding.etStoreNumber.setError("请输入密码");
+            toast("请输入密码");
             return;
         }
-
         long storeId = Long.parseLong(storeNum) - 999L;
-        long userId = Long.parseLong(userNum);
 
+        startLogin(userNum, psw, storeId, true);
+    }
+
+    private void startLogin(String userNum, String psw, long storeId, boolean showError) {
         OrganizationDao orgDao = DaoUtils.daoSession.getOrganizationDao();
         Organization org = orgDao.load(storeId);
         if (org == null) {
-            mBinding.etStoreNumber.setError("该店铺帐号未注册");
+            if (showError) toast("该店铺帐号未注册");
             return;
         }
         UserDao userDao = DaoUtils.daoSession.getUserDao();
-        User user = userDao.load(userId);
-        if (user == null || user.getOrgId() != storeId) {
-            mBinding.etMemberNumber.setError("该员工工号未注册");
+        User user = null;
+        List<User> users = userDao.queryBuilder()
+                .where(UserDao.Properties.OrgId.eq(storeId), UserDao.Properties.Number.eq(userNum))
+                .list();
+        if (!users.isEmpty()) {
+            user = users.get(0);
+        }
+
+        if (user == null) {
+            if (showError) toast("该员工工号未注册");
             return;
         }
         if (!StringUtils.md5(psw).equals(user.getPassword())) {
-            mBinding.etStoreNumber.setError("密码输入错误");
+            if (showError) toast("密码输入错误");
             return;
         }
-        toast("成功");
-
         SPUtils.put(mContext, Constant.KEY_STORE_ID, storeId);
-        SPUtils.put(mContext, Constant.KEY_USER_ID, userId);
+        SPUtils.put(mContext, Constant.KEY_USER_NUMBER, userNum);
+        SPUtils.put(mContext, Constant.KEY_USER_ID, user.getId());
 
         if (mBinding.cbRememberPassword.isChecked()) {
-            SPUtils.put(mContext, Constant.KEY_USER_PASSWORD, user.getPassword());
+            SPUtils.put(mContext, Constant.KEY_USER_PASSWORD, psw);
         } else {
             SPUtils.put(mContext, Constant.KEY_USER_PASSWORD, "");
         }
 
+        toMainActivity();
+    }
 
+    private void toMainActivity() {
+        startActivity(new Intent(mContext, MainActivity.class));
+        finish();
     }
 
     public class Presenter {

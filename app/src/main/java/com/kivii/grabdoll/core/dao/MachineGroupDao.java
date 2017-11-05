@@ -1,5 +1,6 @@
 package com.kivii.grabdoll.core.dao;
 
+import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
@@ -8,6 +9,8 @@ import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.internal.DaoConfig;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseStatement;
+import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import com.kivii.grabdoll.core.bean.MachineGroup;
 
@@ -34,6 +37,7 @@ public class MachineGroupDao extends AbstractDao<MachineGroup, Long> {
 
     private DaoSession daoSession;
 
+    private Query<MachineGroup> organization_GroupListQuery;
 
     public MachineGroupDao(DaoConfig config) {
         super(config);
@@ -183,4 +187,18 @@ public class MachineGroupDao extends AbstractDao<MachineGroup, Long> {
         return true;
     }
     
+    /** Internal query to resolve the "groupList" to-many relationship of Organization. */
+    public List<MachineGroup> _queryOrganization_GroupList(Long orgId) {
+        synchronized (this) {
+            if (organization_GroupListQuery == null) {
+                QueryBuilder<MachineGroup> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.OrgId.eq(null));
+                organization_GroupListQuery = queryBuilder.build();
+            }
+        }
+        Query<MachineGroup> query = organization_GroupListQuery.forCurrentThread();
+        query.setParameter(0, orgId);
+        return query.list();
+    }
+
 }

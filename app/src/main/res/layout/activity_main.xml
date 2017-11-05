@@ -95,7 +95,7 @@
                     <com.kivii.grabdoll.ui.view.IconFontView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/ic_home"
+                        android:text="@string/ic_bear"
                         android:textColor="@{position==0?@color/appTheme:@color/text_gray}"
                         android:textSize="@dimen/ic_big"/>
 
