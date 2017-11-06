@@ -38,9 +38,9 @@ public class LoginActivity extends BaseActivity {
     private void initView() {
         mBinding.setPresenter(new Presenter());
 
-        long storeId = (long) SPUtils.get(mContext, Constant.KEY_STORE_ID, 0L);
-        String userNum = (String) SPUtils.get(mContext, Constant.KEY_USER_NUMBER, "");
-        String psw = (String) SPUtils.get(mContext, Constant.KEY_USER_PASSWORD, "");
+        long storeId = SPUtils.getLong(Constant.KEY_STORE_ID);
+        String userNum = SPUtils.getString(Constant.KEY_USER_NUMBER);
+        String psw = SPUtils.getString(Constant.KEY_USER_PASSWORD);
 
         if (storeId != 0L) {
             mBinding.etStoreNumber.setText(String.valueOf(storeId + 999));
@@ -133,14 +133,14 @@ public class LoginActivity extends BaseActivity {
             if (showError) toast("密码输入错误");
             return;
         }
-        SPUtils.put(mContext, Constant.KEY_STORE_ID, storeId);
-        SPUtils.put(mContext, Constant.KEY_USER_NUMBER, userNum);
-        SPUtils.put(mContext, Constant.KEY_USER_ID, user.getId());
+        SPUtils.put(Constant.KEY_STORE_ID, storeId);
+        SPUtils.put(Constant.KEY_USER_NUMBER, userNum);
+        SPUtils.put(Constant.KEY_USER_ID, user.getId());
 
         if (mBinding.cbRememberPassword.isChecked()) {
-            SPUtils.put(mContext, Constant.KEY_USER_PASSWORD, psw);
+            SPUtils.put(Constant.KEY_USER_PASSWORD, psw);
         } else {
-            SPUtils.put(mContext, Constant.KEY_USER_PASSWORD, "");
+            SPUtils.put(Constant.KEY_USER_PASSWORD, "");
         }
 
         toMainActivity();

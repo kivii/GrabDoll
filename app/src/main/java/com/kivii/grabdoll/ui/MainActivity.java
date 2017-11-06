@@ -1,5 +1,6 @@
 package com.kivii.grabdoll.ui;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,16 +33,14 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        long userId = (long) SPUtils.get(this, Constant.KEY_USER_ID, 0L);
+        long userId = SPUtils.getLong(Constant.KEY_USER_ID);
         mUser = DaoUtils.daoSession.getUserDao().loadDeep(userId);
         if (mUser == null) {
             finish();
             return;
         }
-
-        if (hasData()) {
-            initView();
-        } else {
+        initView();
+        if (!hasData()) {
             toCreate();
         }
     }
@@ -52,7 +51,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void toCreate() {
-
+        startActivity(new Intent(this, GroupManagerActivity.class));
     }
 
     private boolean hasData() {
@@ -110,7 +109,8 @@ public class MainActivity extends BaseActivity {
         }
 
         public void onClickMine(View v) {
-            mBinding.viewPager.setCurrentItem(3);
+            //mBinding.viewPager.setCurrentItem(3);
+            startActivity(new Intent(MainActivity.this, GroupManagerActivity.class));
         }
     }
 

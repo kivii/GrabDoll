@@ -9,39 +9,28 @@ import java.util.Map;
 
 public class SPUtils {
 
-    public SPUtils() {
-    }
+    private static SharedPreferences sp;
+
+    private SPUtils() {}
 
     /**
      * 保存在手机里面的文件名(用户信息和设置信息)
      */
-    private static final String FILE_NAME = "EasymsFastDeliver_data";
+    private static final String FILE_NAME = "GrabDoll_data";
 
-    public static String getUserMobile(Context context) {
-        return (String) get(context, "userId", "");
-    }
-
-    public static String getUserPassword(Context context) {
-        return (String) get(context, "password", "");
-    }
-
-    public static void setUserMobile(Context context, String userId) {
-        put(context, "userId", userId);
-    }
-
-    public static void setUserPassword(Context context, String password) {
-        put(context, "password", password);
+    public static void init(Context context) {
+        if (sp == null) {
+            sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        }
     }
 
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
      *
-     * @param context
      * @param key
      * @param object
      */
-    public static void put(Context context, String key, Object object) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+    public static void put(String key, Object object) {
         SharedPreferences.Editor editor = sp.edit();
 
         if (object instanceof String) {
@@ -61,41 +50,33 @@ public class SPUtils {
         SharedPreferencesCompat.apply(editor);
     }
 
-    /**
-     * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
-     *
-     * @param context
-     * @param key
-     * @param defaultObject
-     * @return
-     */
-    public static Object get(Context context, String key, Object defaultObject) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+    public static String getString(String key) {
+        return sp.getString(key, "");
+    }
 
-        if (defaultObject instanceof String) {
-            return sp.getString(key, (String) defaultObject);
-        } else if (defaultObject instanceof Integer) {
-            return sp.getInt(key, (Integer) defaultObject);
-        } else if (defaultObject instanceof Boolean) {
-            return sp.getBoolean(key, (Boolean) defaultObject);
-        } else if (defaultObject instanceof Float) {
-            return sp.getFloat(key, (Float) defaultObject);
-        } else if (defaultObject instanceof Long) {
-            return sp.getLong(key, (Long) defaultObject);
-        }
+    public static int getInt(String key) {
+        return sp.getInt(key, 0);
+    }
 
-        return null;
+    public static boolean getBoolean(String key) {
+        return sp.getBoolean(key, false);
+    }
+
+    public static float getFloat(String key) {
+        return sp.getFloat(key, 0f);
+    }
+
+    public static long getLong(String key) {
+        return sp.getLong(key, 0L);
     }
 
     /**
      * 移除某个key值已经对应的值
      *
-     * @param context
      * @param key
      */
-    public static void remove(Context context, String key) {
-        if (contains(context, key)) {
-            SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+    public static void remove(String key) {
+        if (contains(key)) {
             SharedPreferences.Editor editor = sp.edit();
             editor.remove(key);
             SharedPreferencesCompat.apply(editor);
@@ -104,11 +85,8 @@ public class SPUtils {
 
     /**
      * 清除所有数据
-     *
-     * @param context
      */
-    public static void clear(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+    public static void clear() {
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         SharedPreferencesCompat.apply(editor);
@@ -117,28 +95,20 @@ public class SPUtils {
     /**
      * 查询某个key是否已经存在
      *
-     * @param context
      * @param key
      * @return
      */
-    public static boolean contains(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+    public static boolean contains(String key) {
         return sp.contains(key);
     }
 
     /**
      * 返回所有的键值对
      *
-     * @param context
      * @return
      */
-    public static Map<String, ?> getAll(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+    public static Map<String, ?> getAll() {
         return sp.getAll();
-    }
-
-    public static void setUserPassword(String password) {
-
     }
 
     /**

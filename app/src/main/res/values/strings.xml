@@ -13,8 +13,11 @@
     <string name="ic_setting">&#xf013;</string>
     <string name="ic_trash">&#xf014;</string>
     <string name="ic_edit">&#xf044;</string>
-    <string name="ic_chart">&#xf201;</string>
+    <string name="ic_chart2">&#xf201;</string>
+    <string name="ic_chart">&#xe901;</string>
     <string name="ic_comments">&#xf086;</string>
+    <string name="ic_close">&#xf00d;</string>
+    <string name="ic_check">&#xf00c;</string>
     <!-- icon end -->
 
     <string name="text_home">主页</string>
