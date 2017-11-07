@@ -18,6 +18,8 @@
     <string name="ic_comments">&#xf086;</string>
     <string name="ic_close">&#xf00d;</string>
     <string name="ic_check">&#xf00c;</string>
+    <string name="ic_grab">&#xe903;</string>
+    <string name="ic_toys">&#xe902;</string>
     <!-- icon end -->
 
     <string name="text_home">主页</string>
@@ -43,5 +45,13 @@
     <string name="text_set_manager">设置管理员</string>
     <string name="text_mobile">手机号码</string>
     <string name="text_remember_password">记住密码</string>
+    <string name="text_save">保存</string>
+    <string name="text_home_address">住址</string>
+    <string name="text_mobile_short">手机</string>
+    <string name="text_birthday">生日</string>
+    <string name="text_sex">姓别</string>
+    <string name="text_man">男</string>
+    <string name="text_woman">女</string>
+    <string name="text_avatar">头像</string>
 
 </resources>

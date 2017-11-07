@@ -9,6 +9,7 @@
 
     <color name="text_black">#303030</color>
     <color name="text_darker">#606060</color>
-    <color name="text_gray">#909090</color>
+    <color name="text_gray">#BBBBBB</color>
     <color name="line_gray">#D0D0D0</color>
+    <color name="bg_gray">#EEEEEE</color>
 </resources>

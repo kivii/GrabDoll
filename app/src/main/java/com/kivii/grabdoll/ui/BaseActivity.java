@@ -90,21 +90,22 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    //---------------------------------- 动态权限 ----------------------------------
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int i : grantResults) {
-            if(i != PermissionChecker.PERMISSION_GRANTED) {
-                onPermsDenied();
-                onBackPressed();
+            if (i != PermissionChecker.PERMISSION_GRANTED) {
+                onPermsDenied(requestCode);
                 return;
             }
         }
 
-        onPermsGranted();
+        onPermsGranted(requestCode);
     }
 
-    protected boolean hasPerms(@NonNull String... perms) {
+    private boolean hasPerms(@NonNull String[] perms) {
         // Always return true for SDK < M, let the system deal with the permissions
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             // DANGER ZONE!!! Changing this will break the library.
@@ -121,22 +122,26 @@ public abstract class BaseActivity extends AppCompatActivity {
         return true;
     }
 
-    protected void requestPerms(String... perms) {
-        ActivityCompat.requestPermissions(this, perms, 1);
-    }
-
     /**
      * 请求权限成功，如果请求多个要全部成功才算成功
      */
-    protected void onPermsGranted() {
+    protected void onPermsGranted(int requestCode) {
 
     }
 
     /**
      * 请求权限失败
      */
-    protected void onPermsDenied() {
+    protected void onPermsDenied(int requestCode) {
 
+    }
+
+    protected void requestPerms(int requestCode, String... perms) {
+        if (hasPerms(perms)) {
+            onPermsGranted(requestCode);
+        } else {
+            ActivityCompat.requestPermissions(this, perms, requestCode);
+        }
     }
 
     protected void showProgress(String msg, boolean cancelable) {

@@ -50,6 +50,11 @@ public class MainActivity extends BaseActivity {
         AppUtils.backHome(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     private void toCreate() {
         startActivity(new Intent(this, GroupManagerActivity.class));
     }

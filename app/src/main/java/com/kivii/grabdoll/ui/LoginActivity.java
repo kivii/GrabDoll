@@ -79,7 +79,7 @@ public class LoginActivity extends BaseActivity {
         mBinding.etMemberNumber.setText(num);
         mBinding.etPassword.setText(psw);
 
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(mContext)
                 .setTitle("注册成功")
                 .setMessage("您的店铺帐号为 " + (storeId + 999) +
                         "\n您的工号为 " + num + "\n请记住了")
@@ -153,12 +153,16 @@ public class LoginActivity extends BaseActivity {
 
     public class Presenter {
 
+        public void onClickSetting(View v) {
+
+        }
+
         public void onClickLogin(View v) {
             login();
         }
 
         public void onClickRegister(View v) {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            Intent intent = new Intent(mContext, RegisterActivity.class);
             startActivityForResult(intent, REQUEST_REGISTER);
         }
     }

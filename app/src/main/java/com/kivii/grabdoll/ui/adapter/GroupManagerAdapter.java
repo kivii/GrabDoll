@@ -16,6 +16,8 @@ import java.util.List;
 public class GroupManagerAdapter extends RecyclerView.Adapter<BindingViewHolder> {
     private LayoutInflater inflater;
     private List<MachineGroup> groupList;
+    private OnEditClickListener onEditClickListener;
+    private onItemClickListener onItemClickListener;
 
     public GroupManagerAdapter(Context context, List<MachineGroup> groupList) {
         this.inflater = LayoutInflater.from(context);
@@ -31,8 +33,20 @@ public class GroupManagerAdapter extends RecyclerView.Adapter<BindingViewHolder>
 
     @Override
     public void onBindViewHolder(BindingViewHolder holder, int position) {
+        final MachineGroup group = groupList.get(position);
         ItemGroupManagerBinding binding = holder.getBinding();
-        binding.setName(groupList.get(position).getName());
+        binding.setName(group.getName());
+        binding.icEdit.setOnClickListener((v) -> {
+            if (onEditClickListener != null) {
+                onEditClickListener.onClick(group);
+            }
+        });
+
+        binding.getRoot().setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onClick(group);
+            }
+        });
     }
 
     @Override
@@ -43,5 +57,21 @@ public class GroupManagerAdapter extends RecyclerView.Adapter<BindingViewHolder>
     public void add(MachineGroup group) {
         groupList.add(group);
         notifyItemInserted(getItemCount());
+    }
+
+    public void setOnEditClickListener(OnEditClickListener onEditClickListener) {
+        this.onEditClickListener = onEditClickListener;
+    }
+
+    public void setOnItemClickListener(GroupManagerAdapter.onItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnEditClickListener {
+        void onClick(MachineGroup group);
+    }
+
+    public interface onItemClickListener {
+        void onClick(MachineGroup group);
     }
 }

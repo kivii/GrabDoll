@@ -1,5 +1,6 @@
 package com.kivii.grabdoll.core.bean;
 
+import com.kivii.grabdoll.core.dao.CustomerStorageDao;
 import com.kivii.grabdoll.core.dao.DaoSession;
 import com.kivii.grabdoll.core.dao.ImageDao;
 import com.kivii.grabdoll.core.dao.MachineGroupDao;
@@ -36,6 +37,9 @@ public class Organization {
 
     @ToMany(referencedJoinProperty = "orgId")
     private List<MachineGroup> groupList;
+
+    @ToMany(referencedJoinProperty = "orgId")
+    private List<CustomerStorage> storageList;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -237,6 +241,34 @@ public class Organization {
     @Generated(hash = 114754500)
     public synchronized void resetGroupList() {
         groupList = null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1671511862)
+    public List<CustomerStorage> getStorageList() {
+        if (storageList == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            CustomerStorageDao targetDao = daoSession.getCustomerStorageDao();
+            List<CustomerStorage> storageListNew = targetDao._queryOrganization_StorageList(id);
+            synchronized (this) {
+                if (storageList == null) {
+                    storageList = storageListNew;
+                }
+            }
+        }
+        return storageList;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1191090564)
+    public synchronized void resetStorageList() {
+        storageList = null;
     }
 
 }

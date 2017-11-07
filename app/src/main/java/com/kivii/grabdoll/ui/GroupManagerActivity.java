@@ -1,7 +1,7 @@
 package com.kivii.grabdoll.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
 
 import com.kivii.grabdoll.R;
 import com.kivii.grabdoll.core.bean.MachineGroup;
@@ -26,7 +25,6 @@ import com.kivii.grabdoll.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -37,15 +35,15 @@ public class GroupManagerActivity extends BaseActivity {
     private List<MachineGroup> mGroupList = new ArrayList<>();
 
     private Organization org;
-    private OrganizationDao orgDao;
     private MachineGroupDao groupDao;
+    private int moveFromPosition, moveToPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_manager);
         mContext = this;
-        orgDao = DaoUtils.daoSession.getOrganizationDao();
+        OrganizationDao orgDao = DaoUtils.daoSession.getOrganizationDao();
         groupDao = DaoUtils.daoSession.getMachineGroupDao();
 
         long orgId = SPUtils.getLong(Constant.KEY_STORE_ID);
@@ -62,32 +60,32 @@ public class GroupManagerActivity extends BaseActivity {
 
     private void initView() {
         setTitleName("组管理");
-        setRightIc(R.string.ic_plus, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addGroup();
-            }
-        });
+        setRightIc(R.string.ic_plus, v -> addGroup());
         mRvContent = findViewById(R.id.rv_content);
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mRvContent.setAdapter(mAdapter = new GroupManagerAdapter(mContext, mGroupList));
+
+        mAdapter.setOnEditClickListener(this::updateGroup);
+        mAdapter.setOnItemClickListener(this::onGroupClick);
     }
 
     private void initData() {
         List<MachineGroup> list = org.getGroupList();
         if (!list.isEmpty()) {
-            Collections.sort(list, new Comparator<MachineGroup>() {
-                @Override
-                public int compare(MachineGroup o1, MachineGroup o2) {
-                    return ((Integer)o1.getSortNum()).compareTo(o2.getSortNum());
-                }
-            });
+            Collections.sort(list, (o1, o2) ->
+                    (Integer.valueOf(o1.getSortNum()).compareTo(o2.getSortNum())));
             mGroupList.clear();
             mGroupList.addAll(list);
             mAdapter.notifyDataSetChanged();
         } else {
             addGroup();
         }
+    }
+
+    private void onGroupClick(MachineGroup group) {
+        Intent intent = new Intent(this, ToysManagerActivity.class);
+        intent.putExtra("groupId", group.getId());
+        startActivity(intent);
     }
 
     private void addGroup() {
@@ -97,28 +95,47 @@ public class GroupManagerActivity extends BaseActivity {
                 .setTitle("添加组")
                 .setView(binding.getRoot())
                 .setNegativeButton("取消", null)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String str = binding.etInput.getText().toString();
-                        if (TextUtils.isEmpty(str)) {
-                            toast("请输入组名");
-                        } else {
-                            MachineGroup group = new MachineGroup();
-                            group.setAddTime(new Date());
-                            group.setName(str);
-                            group.setSortNum(mGroupList.size());
-                            group.setOrgId(org.getId());
-                            groupDao.insert(group);
-                            mAdapter.add(group);
-                        }
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String str = binding.etInput.getText().toString();
+                    if (TextUtils.isEmpty(str)) {
+                        toast("请输入组名");
+                    } else {
+                        MachineGroup group = new MachineGroup();
+                        group.setAddTime(new Date());
+                        group.setName(str);
+                        group.setSortNum(mGroupList.size());
+                        group.setOrgId(org.getId());
+                        groupDao.insert(group);
+                        org.resetGroupList();
+                        mAdapter.add(group);
                     }
                 })
                 .show();
     }
 
+    private void updateGroup(MachineGroup group) {
+        final DialogInputTextBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mContext),
+                R.layout.dialog_input_text, null, false);
+        binding.setText(group.getName());
 
-    private int moveFromPosition, moveToPosition;
+        new AlertDialog.Builder(mContext)
+                .setTitle("重命名")
+                .setView(binding.getRoot())
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    String str = binding.etInput.getText().toString();
+                    if (TextUtils.isEmpty(str)) {
+                        toast("请输入组名");
+                    } else {
+                        group.setName(str);
+                        groupDao.update(group);
+                        org.resetGroupList();
+                        mAdapter.notifyItemChanged(mGroupList.indexOf(group));
+                    }
+                })
+                .show();
+    }
+
     /**
      * 被始化拖拽
      */
@@ -169,18 +186,12 @@ public class GroupManagerActivity extends BaseActivity {
                 final MachineGroup group = mGroupList.get(viewHolder.getAdapterPosition());
                 new AlertDialog.Builder(mContext)
                         .setTitle("提示")
-                        .setMessage(String.format("是否删除组：%s", group.getName()))
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                initData();
-                            }
-                        })
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                groupDao.delete(group);
-                            }
+                        .setMessage(String.format("是否删除组：%s，以及组下所有项？", group.getName()))
+                        .setNegativeButton("取消", (dialog, which) -> initData())
+                        .setPositiveButton("确定", (dialog, which) -> {
+                            DaoUtils.daoSession.getToysDao().deleteInTx(group.getToysList());
+                            groupDao.delete(group);
+                            org.resetGroupList();
                         })
                         .show();
             }
@@ -194,6 +205,7 @@ public class GroupManagerActivity extends BaseActivity {
             MachineGroup group = mGroupList.get(i);
             group.setSortNum(i);
             groupDao.update(group);
+            org.resetGroupList();
         }
     }
 }
