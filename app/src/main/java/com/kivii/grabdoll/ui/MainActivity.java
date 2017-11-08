@@ -14,7 +14,7 @@ import com.kivii.grabdoll.core.bean.User;
 import com.kivii.grabdoll.databinding.ActivityMainBinding;
 import com.kivii.grabdoll.ui.fragment.ChartFragment;
 import com.kivii.grabdoll.ui.fragment.HomeFragment;
-import com.kivii.grabdoll.ui.fragment.MessageFragment;
+import com.kivii.grabdoll.ui.fragment.MailListFragment;
 import com.kivii.grabdoll.ui.fragment.MineFragment;
 import com.kivii.grabdoll.util.AppUtils;
 import com.kivii.grabdoll.util.Constant;
@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         HomeFragment homeFragment = new HomeFragment();
-        MessageFragment msgFragment = new MessageFragment();
+        MailListFragment msgFragment = new MailListFragment();
         ChartFragment chartFragment = new ChartFragment();
         MineFragment mineFragment = new MineFragment();
 

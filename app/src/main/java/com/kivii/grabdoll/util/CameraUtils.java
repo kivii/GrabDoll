@@ -15,6 +15,7 @@ import android.support.v4.content.FileProvider;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class CameraUtils {
@@ -37,7 +38,7 @@ public class CameraUtils {
     public static File camera(Activity activity, int requestCode, String authorities) {
         String parentDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()
                 + File.separator + "Camera" + File.separator;
-        File file = new File(parentDir);
+        File file = new File(parentDir, String.format("IMG_%s.png", cameraDateFormat.format(new Date())));
         camera(activity, requestCode, file, authorities);
 
         return file;
@@ -69,6 +70,13 @@ public class CameraUtils {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             activity.startActivityForResult(intent, requestCode);
         }
+    }
+
+    /**
+     * 相机拍照
+     */
+    public static void sysCamera(Activity activity, int requestCode) {
+        activity.startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), requestCode);
     }
 
     public static void systemAlbums(Activity activity, int requestCode) {

@@ -134,12 +134,15 @@ public final class FileUtils {
         }
         if (hasDir) {
             boolean hasFile = file.exists() && file.isFile();
-            if (!hasFile) {
-                try {
-                    hasFile = file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            if (hasFile) {
+                file.setWritable(true);
+                file.delete();
+            }
+            
+            try {
+                hasFile = file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             return hasFile;
         }

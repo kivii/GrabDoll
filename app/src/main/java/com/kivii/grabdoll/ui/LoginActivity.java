@@ -154,7 +154,7 @@ public class LoginActivity extends BaseActivity {
     public class Presenter {
 
         public void onClickSetting(View v) {
-
+            startActivity(new Intent(mContext, MemberCreateActivity.class));
         }
 
         public void onClickLogin(View v) {

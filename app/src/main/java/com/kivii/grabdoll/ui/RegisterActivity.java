@@ -94,6 +94,7 @@ public class RegisterActivity extends BaseActivity {
         User user = new User();
         user.setName(managerName);
         user.setMobile(managerMobile);
+        user.setLevel(1);
         user.setNumber("001");
         user.setPassword(StringUtils.md5(password));
         user.setAddTime(new Date());
