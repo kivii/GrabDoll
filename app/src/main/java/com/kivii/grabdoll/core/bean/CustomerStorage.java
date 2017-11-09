@@ -8,6 +8,7 @@ import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.OrderBy;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import java.util.Date;
@@ -23,8 +24,10 @@ public class CustomerStorage {
     private Date addTime;
     private String mobile;
     private int count;
+    private int top;
 
     @ToMany(referencedJoinProperty = "storageId")
+    @OrderBy("addTime ASC")
     private List<CustomerStorageRecord> recordList;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -33,9 +36,9 @@ public class CustomerStorage {
     @Generated(hash = 469369479)
     private transient CustomerStorageDao myDao;
 
-    @Generated(hash = 1440020195)
-    public CustomerStorage(Long id, Long orgId, int number, String name,
-            Date addTime, String mobile, int count) {
+    @Generated(hash = 834718839)
+    public CustomerStorage(Long id, Long orgId, int number, String name, Date addTime, String mobile,
+            int count, int top) {
         this.id = id;
         this.orgId = orgId;
         this.number = number;
@@ -43,6 +46,7 @@ public class CustomerStorage {
         this.addTime = addTime;
         this.mobile = mobile;
         this.count = count;
+        this.top = top;
     }
 
     @Generated(hash = 1413369181)
@@ -176,5 +180,13 @@ public class CustomerStorage {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCustomerStorageDao() : null;
+    }
+
+    public int getTop() {
+        return this.top;
+    }
+
+    public void setTop(int top) {
+        this.top = top;
     }
 }

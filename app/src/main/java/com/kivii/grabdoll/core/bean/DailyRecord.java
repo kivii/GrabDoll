@@ -1,10 +1,10 @@
 package com.kivii.grabdoll.core.bean;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.util.Date;
-import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class DailyRecord {
@@ -17,15 +17,20 @@ public class DailyRecord {
     private int inCoin;
     private int outToys;
     private String remark;
-    @Generated(hash = 264416909)
+    private String userNum;
+    private String userName;
+
+    @Generated(hash = 909073762)
     public DailyRecord(Long id, Date addTime, Date time, int inCoin, int outToys,
-            String remark) {
+            String remark, String userNum, String userName) {
         this.id = id;
         this.addTime = addTime;
         this.time = time;
         this.inCoin = inCoin;
         this.outToys = outToys;
         this.remark = remark;
+        this.userNum = userNum;
+        this.userName = userName;
     }
     @Generated(hash = 1812185311)
     public DailyRecord() {
@@ -65,6 +70,18 @@ public class DailyRecord {
     }
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+    public String getUserNum() {
+        return this.userNum;
+    }
+    public void setUserNum(String userNum) {
+        this.userNum = userNum;
+    }
+    public String getUserName() {
+        return this.userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 }

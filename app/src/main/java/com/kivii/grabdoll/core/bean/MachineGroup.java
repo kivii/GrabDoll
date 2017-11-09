@@ -1,16 +1,18 @@
 package com.kivii.grabdoll.core.bean;
 
+import com.kivii.grabdoll.core.dao.DaoSession;
+import com.kivii.grabdoll.core.dao.MachineGroupDao;
+import com.kivii.grabdoll.core.dao.ToysDao;
+
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.OrderBy;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import java.util.Date;
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
-import com.kivii.grabdoll.core.dao.DaoSession;
-import com.kivii.grabdoll.core.dao.ToysDao;
-import com.kivii.grabdoll.core.dao.MachineGroupDao;
 
 @Entity
 public class MachineGroup {
@@ -24,6 +26,7 @@ public class MachineGroup {
     private int sortNum;
 
     @ToMany(referencedJoinProperty = "groupId")
+    @OrderBy("sortNum ASC")
     private List<Toys> toysList;
 
     private Long orgId;

@@ -1,14 +1,8 @@
 package com.kivii.grabdoll.core.bean;
 
-import com.kivii.grabdoll.core.dao.CustomerStorageRecordDao;
-import com.kivii.grabdoll.core.dao.DaoSession;
-import com.kivii.grabdoll.core.dao.UserDao;
-
-import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.Date;
 
@@ -20,25 +14,18 @@ public class CustomerStorageRecord {
     private int count;
     private String describe;
     private Long storageId;
-
-    private Long userId;
-    @ToOne(joinProperty = "userId")
-    private User user;
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-    /** Used for active entity operations. */
-    @Generated(hash = 1206120121)
-    private transient CustomerStorageRecordDao myDao;
-    @Generated(hash = 1332162093)
+    private String userNum;
+    private String userName;
+    @Generated(hash = 57396883)
     public CustomerStorageRecord(Long id, Date addTime, int count, String describe,
-            Long storageId, Long userId) {
+            Long storageId, String userNum, String userName) {
         this.id = id;
         this.addTime = addTime;
         this.count = count;
         this.describe = describe;
         this.storageId = storageId;
-        this.userId = userId;
+        this.userNum = userNum;
+        this.userName = userName;
     }
     @Generated(hash = 39212795)
     public CustomerStorageRecord() {
@@ -73,79 +60,17 @@ public class CustomerStorageRecord {
     public void setStorageId(Long storageId) {
         this.storageId = storageId;
     }
-    public Long getUserId() {
-        return this.userId;
+    public String getUserNum() {
+        return this.userNum;
     }
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserNum(String userNum) {
+        this.userNum = userNum;
     }
-    @Generated(hash = 251390918)
-    private transient Long user__resolvedKey;
-    /** To-one relationship, resolved on first access. */
-    @Generated(hash = 859885876)
-    public User getUser() {
-        Long __key = this.userId;
-        if (user__resolvedKey == null || !user__resolvedKey.equals(__key)) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            UserDao targetDao = daoSession.getUserDao();
-            User userNew = targetDao.load(__key);
-            synchronized (this) {
-                user = userNew;
-                user__resolvedKey = __key;
-            }
-        }
-        return user;
+    public String getUserName() {
+        return this.userName;
     }
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1065606912)
-    public void setUser(User user) {
-        synchronized (this) {
-            this.user = user;
-            userId = user == null ? null : user.getId();
-            user__resolvedKey = userId;
-        }
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
-    }
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 1942392019)
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.refresh(this);
-    }
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 713229351)
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.update(this);
-    }
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 381175887)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getCustomerStorageRecordDao()
-                : null;
-    }
+
 }

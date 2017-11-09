@@ -193,6 +193,7 @@ public class MachineGroupDao extends AbstractDao<MachineGroup, Long> {
             if (organization_GroupListQuery == null) {
                 QueryBuilder<MachineGroup> queryBuilder = queryBuilder();
                 queryBuilder.where(Properties.OrgId.eq(null));
+                queryBuilder.orderRaw("T.'SORT_NUM' ASC");
                 organization_GroupListQuery = queryBuilder.build();
             }
         }

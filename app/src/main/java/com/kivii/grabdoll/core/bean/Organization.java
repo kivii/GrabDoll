@@ -11,6 +11,7 @@ import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.OrderBy;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
@@ -36,9 +37,11 @@ public class Organization {
     private List<User> userList;
 
     @ToMany(referencedJoinProperty = "orgId")
+    @OrderBy("sortNum ASC")
     private List<MachineGroup> groupList;
 
     @ToMany(referencedJoinProperty = "orgId")
+    @OrderBy("top DESC, number ASC")
     private List<CustomerStorage> storageList;
 
     /** Used to resolve relations */

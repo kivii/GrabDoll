@@ -211,6 +211,7 @@ public class ToysDao extends AbstractDao<Toys, Long> {
             if (machineGroup_ToysListQuery == null) {
                 QueryBuilder<Toys> queryBuilder = queryBuilder();
                 queryBuilder.where(Properties.GroupId.eq(null));
+                queryBuilder.orderRaw("T.'SORT_NUM' ASC");
                 machineGroup_ToysListQuery = queryBuilder.build();
             }
         }
