@@ -24,7 +24,6 @@ import com.kivii.grabdoll.util.DaoUtils;
 import com.kivii.grabdoll.util.SPUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -72,8 +71,8 @@ public class GroupManagerActivity extends BaseActivity {
     private void initData() {
         List<MachineGroup> list = org.getGroupList();
         if (!list.isEmpty()) {
-            Collections.sort(list, (o1, o2) ->
-                    (Integer.valueOf(o1.getSortNum()).compareTo(o2.getSortNum())));
+//            Collections.sort(list, (o1, o2) ->
+//                    (Integer.valueOf(o1.getSortNum()).compareTo(o2.getSortNum())));
             mGroupList.clear();
             mGroupList.addAll(list);
             mAdapter.notifyDataSetChanged();

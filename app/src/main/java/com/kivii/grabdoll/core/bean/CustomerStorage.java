@@ -27,7 +27,7 @@ public class CustomerStorage {
     private int top;
 
     @ToMany(referencedJoinProperty = "storageId")
-    @OrderBy("addTime ASC")
+    @OrderBy("addTime DESC")
     private List<CustomerStorageRecord> recordList;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

@@ -198,7 +198,7 @@ public class CustomerStorageRecordDao extends AbstractDao<CustomerStorageRecord,
             if (customerStorage_RecordListQuery == null) {
                 QueryBuilder<CustomerStorageRecord> queryBuilder = queryBuilder();
                 queryBuilder.where(Properties.StorageId.eq(null));
-                queryBuilder.orderRaw("T.'ADD_TIME' ASC");
+                queryBuilder.orderRaw("T.'ADD_TIME' DESC");
                 customerStorage_RecordListQuery = queryBuilder.build();
             }
         }

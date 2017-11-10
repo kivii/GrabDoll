@@ -57,6 +57,15 @@ public class CustomerStorageManagerAdapter extends RecyclerView.Adapter<BindingV
         return list.size();
     }
 
+    public void delete(CustomerStorage storage) {
+        if (list.contains(storage)) {
+            int index = list.indexOf(storage);
+            list.remove(index);
+            notifyItemRemoved(index);
+            notifyItemRangeChanged(0, getItemCount());
+        }
+    }
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }

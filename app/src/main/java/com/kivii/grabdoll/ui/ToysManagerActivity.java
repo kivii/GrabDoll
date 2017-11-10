@@ -21,7 +21,6 @@ import com.kivii.grabdoll.ui.adapter.ToysManagerAdapter;
 import com.kivii.grabdoll.util.DaoUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -71,8 +70,8 @@ public class ToysManagerActivity extends BaseActivity {
         if (list.isEmpty()) {
             addToys();
         } else {
-            Collections.sort(list, ((o1, o2) ->
-                    Integer.valueOf(o1.getSortNum()).compareTo(o2.getSortNum())));
+//            Collections.sort(list, ((o1, o2) ->
+//                    Integer.valueOf(o1.getSortNum()).compareTo(o2.getSortNum())));
             mToysList.clear();
             mToysList.addAll(list);
             mAdapter.notifyDataSetChanged();

@@ -265,7 +265,6 @@
         </android.support.v4.widget.NestedScrollView>
 
         <Button
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{page==0?@string/text_next_step:@string/text_complete}"

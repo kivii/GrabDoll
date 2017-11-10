@@ -21,7 +21,7 @@ android {
         enabled true
     }
     greendao {
-        schemaVersion 2
+        schemaVersion 1
         daoPackage 'com.kivii.grabdoll.core.dao'
         targetGenDir 'src/main/java'
     }

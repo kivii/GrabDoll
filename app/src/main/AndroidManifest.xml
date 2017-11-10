@@ -67,8 +67,21 @@
         <activity
             android:name=".ui.WebActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden" />
-        <activity android:name=".ui.MemberCreateActivity" />
-        <activity android:name=".ui.CustomerStorageManagerActivity"></activity>
+        <activity android:name=".ui.MemberCreateActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.CustomerStorageManagerActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.CustomerStorageCreateActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.CustomerStorageRecordActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.CustomerStorageRecordCreateActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

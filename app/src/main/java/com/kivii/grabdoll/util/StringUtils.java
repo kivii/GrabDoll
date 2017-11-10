@@ -75,10 +75,10 @@ public class StringUtils {
                 } else if (day == 2) {
                     template = "前天 HH:mm";
                 } else {
-                    template = "MM/dd";
+                    template = "MM/dd HH:mm";
                 }
             } else {
-                template = "MM/dd";
+                template = "MM/dd HH:mm";
             }
         } else {
             template = "yyyy/MM/dd";

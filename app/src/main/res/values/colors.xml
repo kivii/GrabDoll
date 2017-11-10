@@ -12,4 +12,5 @@
     <color name="text_gray">#BBBBBB</color>
     <color name="line_gray">#D0D0D0</color>
     <color name="bg_gray">#EEEEEE</color>
+    <color name="red">#e7f93b31</color>
 </resources>

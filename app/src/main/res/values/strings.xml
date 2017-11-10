@@ -54,5 +54,8 @@
     <string name="text_woman">女</string>
     <string name="text_avatar">头像</string>
     <string name="text_from_mobile_import">从手机通讯录导入</string>
+    <string name="text_number">编号</string>
+    <string name="text_count">数量</string>
+    <string name="text_remark">备注</string>
 
 </resources>

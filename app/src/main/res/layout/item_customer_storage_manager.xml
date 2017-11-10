@@ -67,7 +67,7 @@
             android:layout_alignBottom="@id/tv_count_title"
             android:textColor="@color/appTheme"
             android:textSize="16sp"
-            android:text="@{String.valueOf(storage.number)}"
+            android:text="@{String.valueOf(storage.count)}"
             tools:text="25"/>
     </RelativeLayout>
 </layout>

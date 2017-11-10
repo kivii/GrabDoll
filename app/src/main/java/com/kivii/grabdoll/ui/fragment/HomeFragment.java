@@ -1,6 +1,7 @@
 package com.kivii.grabdoll.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,10 +12,11 @@ import android.view.ViewGroup;
 
 import com.kivii.grabdoll.R;
 import com.kivii.grabdoll.databinding.FragmentHomeBinding;
+import com.kivii.grabdoll.ui.CustomerStorageManagerActivity;
+import com.kivii.grabdoll.ui.MemberCreateActivity;
 
 
 public class HomeFragment extends Fragment {
-    private static final String TAG = HomeFragment.class.getSimpleName();
     private Context mContext;
     private FragmentHomeBinding mBinding;
 
@@ -33,12 +35,18 @@ public class HomeFragment extends Fragment {
     }
 
     private void initView() {
-//        mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Animatable anim = (Animatable) mBinding.image.getDrawable();
-//                anim.start();
-//            }
-//        });
+        mBinding.setPresenter(new Presenter());
     }
+
+    public class Presenter {
+        public void onClickBtn1(View v) {
+            startActivity(new Intent(mContext, CustomerStorageManagerActivity.class));
+        }
+
+        public void onClickBtn2(View v) {
+            startActivity(new Intent(mContext, MemberCreateActivity.class));
+        }
+
+    }
+
 }
