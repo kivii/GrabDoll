@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="storage"
+            type="com.kivii.grabdoll.core.bean.CustomerStorage"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/tv_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:textColor="@color/text_darker"
+            android:textStyle="bold"
+            android:text="@{String.valueOf(storage.number)}"
+            tools:text="12"/>
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_number"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:textColor="@color/text_darker"
+            android:text="@{storage.name}"
+            tools:text="Name"/>
+
+        <TextView
+            android:id="@+id/tv_mobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_name"
+            android:textColor="@color/text_darker"
+            android:text="@{storage.mobile}"
+            tools:text="13655468879"/>
+
+        <TextView
+            android:id="@+id/tv_count_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:layout_alignLeft="@id/tv_name"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/text_darker"
+            android:text="储存数： "/>
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_count_title"
+            android:layout_alignBottom="@id/tv_count_title"
+            android:textColor="@color/appTheme"
+            android:textSize="16sp"
+            android:text="@{String.valueOf(storage.number)}"
+            tools:text="25"/>
+    </RelativeLayout>
+</layout>
