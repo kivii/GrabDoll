@@ -8,9 +8,12 @@ import com.kivii.grabdoll.R;
 import com.kivii.grabdoll.core.bean.CustomerStorage;
 import com.kivii.grabdoll.core.dao.CustomerStorageDao;
 import com.kivii.grabdoll.databinding.ActivityCustomerStorageCreateBinding;
+import com.kivii.grabdoll.ui.entity.MsgEvent;
 import com.kivii.grabdoll.util.Constant;
 import com.kivii.grabdoll.util.DaoUtils;
 import com.kivii.grabdoll.util.SPUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Date;
 
@@ -67,7 +70,7 @@ public class CustomerStorageCreateActivity extends BaseActivity {
                 } else {
                     storageDao.update(storage);
                 }
-                setResult(RESULT_OK);
+                EventBus.getDefault().post(new MsgEvent(MsgEvent.REFRESH_DATA));
                 onBackPressed();
             }
         }

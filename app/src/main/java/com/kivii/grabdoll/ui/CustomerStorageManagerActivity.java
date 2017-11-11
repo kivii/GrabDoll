@@ -10,13 +10,16 @@ import android.text.TextUtils;
 import com.kivii.grabdoll.R;
 import com.kivii.grabdoll.core.bean.CustomerStorage;
 import com.kivii.grabdoll.core.bean.Organization;
-import com.kivii.grabdoll.core.dao.CustomerStorageDao;
 import com.kivii.grabdoll.databinding.ActivityCustomerStorageManagerBinding;
 import com.kivii.grabdoll.ui.adapter.CustomerStorageManagerAdapter;
-import com.kivii.grabdoll.ui.adapter.SimpleItemDecoration;
+import com.kivii.grabdoll.ui.entity.MsgEvent;
 import com.kivii.grabdoll.util.Constant;
 import com.kivii.grabdoll.util.DaoUtils;
 import com.kivii.grabdoll.util.SPUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +31,15 @@ public class CustomerStorageManagerActivity extends BaseActivity {
     private List<CustomerStorage> allList = new ArrayList<>();
 
     private Organization org;
-    private CustomerStorageDao storageDao;
     private static final int REQUEST_CREATE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_customer_storage_manager);
 
-        storageDao = DaoUtils.daoSession.getCustomerStorageDao();
         long orgId = SPUtils.getLong(Constant.KEY_STORE_ID);
         org = DaoUtils.daoSession.getOrganizationDao().loadDeep(orgId);
         if (org == null) {
@@ -48,6 +51,19 @@ public class CustomerStorageManagerActivity extends BaseActivity {
         initData();
     }
 
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MsgEvent event) {
+        if (MsgEvent.REFRESH_DATA.equals(event.message)) {
+            initData();
+        }
+    }
+
     private void initView() {
         mBinding.setPresenter(new Presenter());
         setTitleName("顾客储存");
@@ -55,13 +71,13 @@ public class CustomerStorageManagerActivity extends BaseActivity {
 
         mBinding.rvContent.setLayoutManager(new LinearLayoutManager(this));
         mBinding.rvContent.setAdapter(mAdapter = new CustomerStorageManagerAdapter(this, storageList));
-        mBinding.rvContent.addItemDecoration(new SimpleItemDecoration());
 
         mAdapter.setOnItemClickListener(storage -> toRecord(storage.getId()));
         mAdapter.setOnItemLongClickListener(this::showSelect);
     }
 
     private void initData() {
+        org.resetStorageList();
         List<CustomerStorage> list = org.getStorageList();
         if (list != null && !list.isEmpty()) {
             allList.clear();
@@ -71,21 +87,6 @@ public class CustomerStorageManagerActivity extends BaseActivity {
             mAdapter.notifyDataSetChanged();
         } else {
             addCustomer(0);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-
-        switch (requestCode) {
-            case REQUEST_CREATE:
-                org.resetStorageList();
-                initData();
-                break;
         }
     }
 
@@ -119,7 +120,6 @@ public class CustomerStorageManagerActivity extends BaseActivity {
                         case 2:
                             storage.setTop(isTop ? 0 : 1);
                             storage.update();
-                            org.resetStorageList();
                             initData();
                             break;
 
@@ -137,7 +137,7 @@ public class CustomerStorageManagerActivity extends BaseActivity {
             for (CustomerStorage storage : allList) {
                 if (String.valueOf(storage.getNumber()).contains(str) ||
                         storage.getName().contains(str) ||
-                        storage.getMobile().contains(str)) {
+                        (str.length() > 2 && storage.getMobile().contains(str))) {
                     storageList.add(storage);
                 }
             }

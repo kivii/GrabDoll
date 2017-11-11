@@ -1,8 +1,6 @@
 package com.kivii.grabdoll.ui.view;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -12,10 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kivii.grabdoll.R;
-import com.kivii.grabdoll.util.MLog;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class NumberInputView extends LinearLayout {
     private int minValue;
@@ -51,7 +45,6 @@ public class NumberInputView extends LinearLayout {
 
         icPlus.setOnTouchListener((v, event) -> onTouchIcon(true, event));
         icMinus.setOnTouchListener((v, event) -> onTouchIcon(false, event));
-        startTimer();
     }
 
     private void add(boolean isAdd) {
@@ -62,10 +55,10 @@ public class NumberInputView extends LinearLayout {
     private long recordMillis;
 
     private boolean onTouchIcon(boolean isAdd, MotionEvent event) {
-        this.isAdd = isAdd;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 recordMillis = System.currentTimeMillis();
+                startTimer(isAdd);
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;
@@ -80,31 +73,15 @@ public class NumberInputView extends LinearLayout {
         return true;
     }
 
-
-    private Timer timer;
-    private TimerTask timerTask;
-    private boolean isAdd;
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-
-        }
-    };
-
-    private void startTimer() {
-        timer = new Timer();
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                if (recordMillis != 0L && System.currentTimeMillis() - recordMillis > 1000) {
+    private void startTimer(boolean isAdd) {
+        postDelayed(() -> {
+            if (recordMillis != 0L) {
+                if (System.currentTimeMillis() - recordMillis > 1000) {
                     add(isAdd);
                 }
-                MLog.i("--- " + System.currentTimeMillis());
+                startTimer(isAdd);
             }
-        };
-
-        timer.schedule(timerTask, 0, 100);
-
+        }, 70);
     }
 
     public int getMinValue() {

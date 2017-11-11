@@ -5,12 +5,16 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.kivii.grabdoll.R;
+import com.kivii.grabdoll.core.bean.CustomerStorage;
 import com.kivii.grabdoll.core.bean.CustomerStorageRecord;
 import com.kivii.grabdoll.core.bean.User;
+import com.kivii.grabdoll.ui.entity.MsgEvent;
 import com.kivii.grabdoll.ui.view.NumberInputView;
 import com.kivii.grabdoll.util.Constant;
 import com.kivii.grabdoll.util.DaoUtils;
 import com.kivii.grabdoll.util.SPUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Date;
 
@@ -18,7 +22,7 @@ public class CustomerStorageRecordCreateActivity extends BaseActivity {
     private NumberInputView numberInputView;
     private EditText etRemark;
 
-    private long storageId;
+    private CustomerStorage storage;
     private User user;
 
     @Override
@@ -29,17 +33,16 @@ public class CustomerStorageRecordCreateActivity extends BaseActivity {
     }
 
     private void initView() {
-        storageId = getIntent().getLongExtra("id", 0L);
+        long storageId = getIntent().getLongExtra("id", 0L);
+        storage = DaoUtils.daoSession.getCustomerStorageDao().load(storageId);
         user = DaoUtils.daoSession.getUserDao().load(SPUtils.getLong(Constant.KEY_USER_ID));
-        if (storageId == 0L || user == null) {
+        if (storage == null || user == null) {
             finish();
             return;
         }
 
         setTitleName("添加记录");
-//        numberInputView = findViewById(R.id.number_input_view);
-//        numberInputView.setMaxValue(10000);
-//        numberInputView.setMinValue(-10000);
+        numberInputView = findViewById(R.id.number_input_view);
         etRemark = findViewById(R.id.et_remark);
     }
 
@@ -48,11 +51,14 @@ public class CustomerStorageRecordCreateActivity extends BaseActivity {
         record.setAddTime(new Date());
         record.setCount(numberInputView.getValue());
         record.setDescribe(etRemark.getText().toString());
-        record.setStorageId(storageId);
+        record.setStorageId(storage.getId());
         record.setUserName(user.getName());
         record.setUserNum(user.getNumber());
         DaoUtils.daoSession.getCustomerStorageRecordDao().insert(record);
-        setResult(RESULT_OK);
+
+        storage.setCount(storage.getCount() + numberInputView.getValue());
+        storage.update();
+        EventBus.getDefault().post(new MsgEvent(MsgEvent.REFRESH_DATA));
         onBackPressed();
     }
 }

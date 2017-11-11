@@ -14,9 +14,19 @@ import com.kivii.grabdoll.R;
 import com.kivii.grabdoll.databinding.FragmentMailListBinding;
 
 
-public class MailListFragment extends Fragment {
+public class MessageFragment extends Fragment {
     private Context mContext;
     private FragmentMailListBinding mBinding;
+
+    public MessageFragment() {
+    }
+
+    public static MessageFragment newInstance() {
+        MessageFragment fragment = new MessageFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -27,7 +37,7 @@ public class MailListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_mail_list, container, false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_message, container, false);
         initView();
         return mBinding.getRoot();
     }

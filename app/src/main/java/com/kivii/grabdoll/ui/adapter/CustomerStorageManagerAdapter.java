@@ -36,6 +36,9 @@ public class CustomerStorageManagerAdapter extends RecyclerView.Adapter<BindingV
         CustomerStorage storage = list.get(position);
         ItemCustomerStorageManagerBinding binding = holder.getBinding();
         binding.setStorage(storage);
+        binding.setShowDivide(position != getItemCount() - 1 && storage.getTop() > 0 &&
+                list.get(position + 1).getTop() == 0);
+
         binding.getRoot().setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(storage);

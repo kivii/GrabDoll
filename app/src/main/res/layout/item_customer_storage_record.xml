@@ -23,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_darker"
             android:lineSpacingMultiplier="1.2"
             tools:text="时间： 2017年10月23日 18:30\n操作： 英子\n备注： 喹盁债转股横眉怒目"/>
 
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textColor="@color/red"
+            android:textColor="@color/light_red"
             android:layout_marginLeft="12dp"
             tools:text="+12"/>
     </LinearLayout>

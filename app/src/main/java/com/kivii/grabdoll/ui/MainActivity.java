@@ -12,9 +12,8 @@ import android.view.View;
 import com.kivii.grabdoll.R;
 import com.kivii.grabdoll.core.bean.User;
 import com.kivii.grabdoll.databinding.ActivityMainBinding;
-import com.kivii.grabdoll.ui.fragment.ChartFragment;
 import com.kivii.grabdoll.ui.fragment.HomeFragment;
-import com.kivii.grabdoll.ui.fragment.MailListFragment;
+import com.kivii.grabdoll.ui.fragment.MessageFragment;
 import com.kivii.grabdoll.ui.fragment.MineFragment;
 import com.kivii.grabdoll.util.AppUtils;
 import com.kivii.grabdoll.util.Constant;
@@ -65,17 +64,15 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         HomeFragment homeFragment = new HomeFragment();
-        MailListFragment msgFragment = new MailListFragment();
-        ChartFragment chartFragment = new ChartFragment();
+        MessageFragment msgFragment = new MessageFragment();
         MineFragment mineFragment = new MineFragment();
 
         fragmentList.clear();
         fragmentList.add(homeFragment);
         fragmentList.add(msgFragment);
-        fragmentList.add(chartFragment);
         fragmentList.add(mineFragment);
 
-        mBinding.viewPager.setOffscreenPageLimit(3);
+        mBinding.viewPager.setOffscreenPageLimit(2);
         mBinding.viewPager.setAdapter(new VpAdapter(getSupportFragmentManager(), fragmentList));
         mBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -109,13 +106,8 @@ public class MainActivity extends BaseActivity {
             mBinding.viewPager.setCurrentItem(1);
         }
 
-        public void onClickChart(View v) {
-            mBinding.viewPager.setCurrentItem(2);
-        }
-
         public void onClickMine(View v) {
-            //mBinding.viewPager.setCurrentItem(3);
-            startActivity(new Intent(MainActivity.this, GroupManagerActivity.class));
+            mBinding.viewPager.setCurrentItem(2);
         }
     }
 

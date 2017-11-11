@@ -20,6 +20,8 @@
     <string name="ic_check">&#xf00c;</string>
     <string name="ic_grab">&#xe903;</string>
     <string name="ic_toys">&#xe902;</string>
+    <string name="ic_group">&#xf0c0;</string>
+    <string name="ic_address_book">&#xf2b9;</string>
     <!-- icon end -->
 
     <string name="text_home">主页</string>
@@ -57,5 +59,6 @@
     <string name="text_number">编号</string>
     <string name="text_count">数量</string>
     <string name="text_remark">备注</string>
+    <string name="text_address_book">通讯录</string>
 
 </resources>
