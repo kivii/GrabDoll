@@ -56,6 +56,15 @@ public class ToysManagerAdapter extends RecyclerView.Adapter<BindingViewHolder> 
         this.onEditClickListener = onEditClickListener;
     }
 
+    public void remove(Toys toys) {
+        if (toysList.contains(toys)) {
+            int index = toysList.indexOf(toys);
+            toysList.remove(index);
+            notifyItemRemoved(index);
+            notifyItemRangeChanged(0, getItemCount());
+        }
+    }
+
     public interface OnEditClickListener {
         void onClick(Toys toys);
     }

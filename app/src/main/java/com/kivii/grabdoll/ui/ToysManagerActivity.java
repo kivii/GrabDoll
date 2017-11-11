@@ -125,9 +125,11 @@ public class ToysManagerActivity extends BaseActivity {
                 final Toys toys = mToysList.get(viewHolder.getAdapterPosition());
                 new AlertDialog.Builder(mContext)
                         .setTitle("提示")
+                        .setCancelable(false)
                         .setMessage(String.format("是否删除项：%s？", toys.getName()))
                         .setNegativeButton("取消", (dialog, which) -> initData())
                         .setPositiveButton("确定", (dialog, which) -> {
+                            mAdapter.remove(toys);
                             toysDao.delete(toys);
                             mGroup.resetToysList();
                         })

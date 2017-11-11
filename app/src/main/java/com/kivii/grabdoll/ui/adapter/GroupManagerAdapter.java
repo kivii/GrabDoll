@@ -67,6 +67,15 @@ public class GroupManagerAdapter extends RecyclerView.Adapter<BindingViewHolder>
         this.onItemClickListener = onItemClickListener;
     }
 
+    public void remove(MachineGroup group) {
+        if (groupList.contains(group)) {
+            int index = groupList.indexOf(group);
+            groupList.remove(index);
+            notifyItemRemoved(index);
+            notifyItemRangeChanged(0, getItemCount());
+        }
+    }
+
     public interface OnEditClickListener {
         void onClick(MachineGroup group);
     }

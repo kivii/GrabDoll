@@ -11,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kivii.grabdoll.R;
-import com.kivii.grabdoll.databinding.FragmentMailListBinding;
+import com.kivii.grabdoll.databinding.FragmentMessageBinding;
 
 
 public class MessageFragment extends Fragment {
     private Context mContext;
-    private FragmentMailListBinding mBinding;
+    private FragmentMessageBinding mBinding;
 
     public MessageFragment() {
     }
